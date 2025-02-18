@@ -1,15 +1,35 @@
 require("dotenv").config();
 const express = require("express");
 const { Pool } = require("pg");
+const cors = require("cors");
 
 const app = express();
 const port = 3006;
 
-// ✅ JSON 및 URL-encoded 미들웨어 적용 (라우트보다 위에 있어야 함)
+// ✅ 허용할 도메인 목록
+const allowedOrigins = ["https://sotong.com", "https://www.sotong.com"];
+
+// ✅ CORS 미들웨어 설정
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // 허용된 도메인이면 요청 허용
+      } else {
+        callback(new Error("CORS 정책에 의해 차단됨"));
+      }
+    },
+    credentials: true, // ✅ 쿠키 및 인증 정보 포함 가능
+    methods: ["GET", "POST"], // ✅ 허용할 HTTP 메서드
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ 허용할 헤더
+  })
+);
+
+// ✅ JSON 및 URL-encoded 미들웨어 적용
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// PostgreSQL 연결 설정
+// ✅ PostgreSQL 연결 설정
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
@@ -30,7 +50,7 @@ async function checkDBConnection() {
 
 // 🔍 특정 tomato_key 값으로 데이터 조회 API
 app.post("/records", async (req, res) => {
-  console.log("📥 요청 바디:", req.body); // 🔥 요청 데이터 로그 추가
+  console.log("📥 요청 바디:", req.body);
 
   const { tomato_key } = req.body;
 
