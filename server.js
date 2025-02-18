@@ -9,7 +9,7 @@ const port = 3006;
 // ✅ 허용할 도메인 목록
 const allowedOrigins = ["https://sotong.com", "https://www.sotong.com"];
 
-// ✅ CORS 미들웨어 설정
+// ✅ CORS 미들웨어 설정 (Preflight 문제 해결)
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -20,8 +20,9 @@ app.use(
       }
     },
     credentials: true, // ✅ 쿠키 및 인증 정보 포함 가능
-    methods: ["GET", "POST"], // ✅ 허용할 HTTP 메서드
-    allowedHeaders: ["Content-Type", "Authorization"], // ✅ 허용할 헤더
+    methods: ["GET", "POST", "OPTIONS"], // ✅ OPTIONS 추가
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200, // ✅ Preflight 요청 문제 해결
   })
 );
 
@@ -34,19 +35,14 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// 🚀 PostgreSQL 연결 테스트 함수
-async function checkDBConnection() {
-  try {
-    const client = await pool.connect();
-    console.log("✅ PostgreSQL 연결 성공!");
-    const result = await client.query("SELECT NOW()");
-    console.log("🕒 현재 시간:", result.rows[0].now);
-    client.release();
-  } catch (err) {
-    console.error("❌ PostgreSQL 연결 실패:", err.message);
-    process.exit(1);
-  }
-}
+// ✅ Preflight 요청(OPTIONS) 직접 처리
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.sendStatus(200);
+});
 
 // 🔍 특정 tomato_key 값으로 데이터 조회 API
 app.post("/records", async (req, res) => {
@@ -76,8 +72,7 @@ app.post("/records", async (req, res) => {
   }
 });
 
-// 🚀 서버 실행 (PostgreSQL 연결 확인 후)
-app.listen(port, async () => {
-  await checkDBConnection();
+// 🚀 서버 실행
+app.listen(port, () => {
   console.log(`🚀 서버 실행 중: http://localhost:${port}`);
 });
