@@ -1,10 +1,6 @@
-require("dotenv").config();
 const express = require("express");
-const { Pool } = require("pg");
-const cors = require("cors");
-
-const app = express();
-const port = 3006;
+const router = express.Router();
+const cors = require('cors');
 
 // ✅ 허용할 도메인 목록
 const allowedOrigins = ["https://sotong.com", "https://www.sotong.com"];
@@ -35,17 +31,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-// ✅ Preflight 요청(OPTIONS) 직접 처리
-app.options("*", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(200);
-});
-
-// 🔍 특정 tomato_key 값으로 데이터 조회 API
-app.post("/records", async (req, res) => {
+router.post("/", async (req, res) => {
   console.log("📥 요청 바디:", req.body);
 
   const { tomato_key } = req.body;
@@ -72,7 +58,4 @@ app.post("/records", async (req, res) => {
   }
 });
 
-// 🚀 서버 실행
-app.listen(port, () => {
-  console.log(`🚀 서버 실행 중: http://localhost:${port}`);
-});
+module.exports = router;
