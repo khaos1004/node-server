@@ -8,17 +8,17 @@ const cors = require('cors');
 
 
 /* 암호화 라이브러리 mok_Key_Manager */
-let mobileOK;mobileOK
+let mobileOK; mobileOK
 try {
-    mobileOK= require("./mok_Key_Manager_v1.0.3.js"); 
-} catch (error)  {
+    mobileOK = require("./mok_Key_Manager_v1.0.3.js");
+} catch (error) {
     console.log('mok_Key_Manager 파일의 경로가 올바르지 않습니다.');
 }
 /* 1. express 서버 설정 */
 const app = express();
 
 /* 1-1 포트(port) 설정 */
-const port = 8085 ;
+const port = 8085;
 
 /* 1-2 루트(root)패키지의 정적파일을 읽기위한 설정 */
 app.use(express.static('./'));
@@ -32,8 +32,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /* 1-5 session 설정 */
 app.use(session({
-    secret:uuid(),
-    resave:false,
+    secret: uuid(),
+    resave: false,
     saveUninitialized: false
 }));
 
@@ -63,13 +63,13 @@ const MOK_RESULT_REQUEST_URL = 'https://scert.mobile-ok.com/gui/service/v1/resul
 // const resultUri = 'https://본인확인 요청 URL/mok/mok_std_result';  // mok 결과 요청 URI
 const requestUri = '/AdultVerification';  // mok 인증 요청 URI  
 const resultUri = '/verificationResult';  // mok 결과 요청 URI
- 
+
 
 
 /* 2-3 결과 수신 후 전달 URL 설정 - "https://" 포함한 URL 입력 */
 /* 결과 전달 URL 내에 개인정보 포함을 절대 금지합니다.*/
 // const resultUrl = 'https://이용기관URL/mok/mok_std_result'; 
-const resultUrl = 'http://localhost:8085/verificationResult'; 
+const resultUrl = 'http://localhost:8085/verificationResult';
 
 /* 3. 본인확인 서비스 API 설정 */
 /* 3-1 키파일 경로(본인확인 키정보파일 Path)설정 */
@@ -107,26 +107,26 @@ app.post(requestUri, (req, res) => {
     /* 1.4 생성된 거래정보 암호화 */
     const encClientTxId = mobileOK.RSAEncrypt(clientTxId);
 
-    
+
     /* 1.5 거래 요청 정보 설정 */
     const authRequestObject = {
         /* 본인확인 서비스 용도 */
         /* 01001 : 회원가입, 01002 : 정보변경, 01003 : ID찾기, 01004 : 비밀번호찾기, 01005 : 본인확인용, 01006 : 성인인증, 01007 : 상품구매/결제, 01999 : 기타 */
-        'usageCode' : '01006'
-        /* 본인확인 서비스 ID */  
+        'usageCode': '01006'
+        /* 본인확인 서비스 ID */
         // , 'serviceId' : '52e1d8ac-a3fb-4986-9cf4-5491082e9c67'
-        , 'serviceId' : mobileOK.getServiceId()
+        , 'serviceId': mobileOK.getServiceId()
         /* 암호화된 본인확인 거래 요청 정보 */
-        , 'encryptReqClientInfo' : encClientTxId
+        , 'encryptReqClientInfo': encClientTxId
         /* 이용상품 코드 */
         /* 이용상품 코드, telcoAuth : 휴대폰본인확인 (SMS인증시 인증번호 발송 방식 "SMS")*/
         /* 이용상품 코드, telcoAuth-LMS : 휴대폰본인확인 (SMS인증시 인증번호 발송 방식 "LMS")*/
-        , 'serviceType' : 'telcoAuth'
+        , 'serviceType': 'telcoAuth'
         /* 본인확인 결과 타입 */
         /* 본인확인 결과 타입, "MOKToken"  : 개인정보 응답결과를 이용기관 서버에서 본인확인 서버에 요청하여 수신 후 처리 */
-        , 'retTransferType' : 'MOKToken'
+        , 'retTransferType': 'MOKToken'
         /* 본인확인 결과 수신 URL */
-        , 'returnUrl' : resultUrl
+        , 'returnUrl': resultUrl
     };
 
     /* 1.6 거래 요청 정보 JSON 반환 */
@@ -146,15 +146,15 @@ app.post(resultUri, async (req, res) => {
     if (resultRequestObject.encryptMOKKeyToken != null) {
         /* 2.1 본인확인 결과 타입 : MOKToken */
         /* 2.1.1 본인확인 결과요청 입력정보 설정 */
-        const authResultRequestObject = { encryptMOKKeyToken : resultRequestObject.encryptMOKKeyToken };
+        const authResultRequestObject = { encryptMOKKeyToken: resultRequestObject.encryptMOKKeyToken };
         /* 2.1.2 본인확인 결과요청 */
         const resultResponseObject = await sendPost(MOK_RESULT_REQUEST_URL, authResultRequestObject);
         try {
             if (typeof resultResponseObject == 'undefined') {
                 throw MOKException;
             }
-        } catch(MOKException) {
-             return res.send('-0|본인확인 서버통신(결과요청)에 실패했습니다.');
+        } catch (MOKException) {
+            return res.send('-0|본인확인 서버통신(결과요청)에 실패했습니다.');
         }
         encryptMOKResult = resultResponseObject.encryptMOKResult;
 
@@ -180,7 +180,7 @@ app.post(resultUri, async (req, res) => {
     let decryptMOKResultJson = null;
     try {
         decryptMOKResultJson = mobileOK.getResult(encryptMOKResult);
-    } catch(error) {
+    } catch (error) {
         return res.send('-3|본인확인 결과 복호화 오류');
     }
 
@@ -207,7 +207,7 @@ app.post(resultUri, async (req, res) => {
     /* 이용기관 ID */
     let siteId = '';
     if (decryptMOKResultObject.hasOwnProperty("siteId")) {
-          siteId = decryptMOKResultObject.siteId;
+        siteId = decryptMOKResultObject.siteId;
     }
     /* 본인확인 거래 ID */
     let txId = '';
@@ -272,16 +272,22 @@ app.post(resultUri, async (req, res) => {
     const currentDate = getCurrentDate();
 
     if (oldDate < currentDate) {
-            return res.send('-5|토큰 생성 10분 결과');
+        return res.send('-5|토큰 생성 10분 결과');
     }
 
     /* 5. 본인확인 결과 반환 */
     // 복호화된 개인정보는 DB보관 또는 세션보관하여 개인정보 저장시 본인확인에서 획득한 정보로 저장하도록 처리 필요
     // 개인정보를 웹브라우져에 전달할 경우 외부 해킹에 의해 유출되지 않도록 보안처리 필요
+    // let data = {
+    //     'errorCode' : '2000'
+    //     , 'resultMsg' : '성공'
+    //     , 'data' : userName
+    // };
+
     let data = {
-        'errorCode' : '2000'
-        , 'resultMsg' : '성공'
-        , 'data' : userName
+        'code': '2000',
+        'resultMsg': '성공',
+        'data': userName
     };
 
     /* 6. 본인확인 결과 응답 방식 */
@@ -298,7 +304,7 @@ app.post(resultUri, async (req, res) => {
 
 /* 거래 ID(uuid) 생성 예제 함수 */
 function uuid() {
-    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 
         return v.toString(16);
@@ -336,7 +342,7 @@ function getOldTime(oldTime) {
     let date = oldTime.getDate();
 
     let hour = oldTime.getHours();
-    let min = oldTime.getMinutes()+ 10;
+    let min = oldTime.getMinutes() + 10;
     let sec = oldTime.getSeconds();
 
     if (min >= 60) {
@@ -373,10 +379,10 @@ function getOldTime(oldTime) {
 
 async function sendPost(targetUrl, encryptMOKKeyToken) {
     try {
-        let responseData = await axios ({
-            method : 'post',
-            url : targetUrl,
-            data : encryptMOKKeyToken
+        let responseData = await axios({
+            method: 'post',
+            url: targetUrl,
+            data: encryptMOKKeyToken
         });
 
         return responseData.data;

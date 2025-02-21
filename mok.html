@@ -8,7 +8,21 @@
 <!--  개발 URL :  -->
 <script src="https://scert.mobile-ok.com/resources/js/index.js"></script>
 <!--  운영 URL : <script src="https://cert.mobile-ok.com/resources/js/index.js"></script> -->
+
 <script>
+    window.onload = function(){
+        MOBILEOK.process("http://verify.sotong.com/AdultVerification", "WB", "");
+    }
+    function result(result) {
+    try {
+        result = JSON.parse(result);
+        document.querySelector("#result").value = JSON.stringify(result, null, 4);
+    } catch (error) {
+        document.querySelector("#result").value = result;
+    }
+    }
+</script>
+<!-- <script>
     //모바일/PC 스크립트 인식 구분
     document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#mok_popup").addEventListener("click", function () {
@@ -20,6 +34,7 @@
         //MOBILEOK.process("https://이용기관URL/mok/mok_std_request.jsp", "WB", "");
     // })
     })
+    
 
     function result(result) {
     try {
@@ -29,7 +44,7 @@
         document.querySelector("#result").value = result;
     }
     }
-</script>
+</script> -->
 <style>
     .container {
     width: 500px;
