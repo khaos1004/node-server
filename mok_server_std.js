@@ -55,8 +55,8 @@ app.listen(port, () => {
 
 /* 2. 본인확인 인증결과 경로설정 */
 /* 2-1 본인확인 인증결과 API 요청 URL */
-const MOK_RESULT_REQUEST_URL = 'https://scert.mobile-ok.com/gui/service/v1/result/request';  // 개발
-// const MOK_RESULT_REQUEST_URL = 'https://cert.mobile-ok.com/gui/service/v1/result/request';  // 운영
+// const MOK_RESULT_REQUEST_URL = 'https://scert.mobile-ok.com/gui/service/v1/result/request';  // 개발
+const MOK_RESULT_REQUEST_URL = 'https://cert.mobile-ok.com/gui/service/v1/result/request';  // 운영
 
 /* 2-1 본인확인 Node.js서버 매핑 URL */
 // const requestUri = 'https://본인확인 요청 URL/mok/mok_std_request';  // mok 인증 요청 URI  
