@@ -96,6 +96,7 @@ const clientPrefix = "tomatopass";  // 8자이내 영대소문자,숫자 (예) M
 
 let clientTxId = clientPrefix + uuid();
 console.log("clientTxId 찍힘" + clientTxId);
+let sessionCustom = clientTxId;
 
 /* 본인확인 표준창 인증요청 함수 예제 (mok_std_request) */
 app.post(requestUri, (req, res) => {
@@ -138,7 +139,8 @@ app.post(requestUri, (req, res) => {
         , 'retTransferType': 'MOKToken'
         /* 본인확인 결과 수신 URL */
         , 'returnUrl': resultUrl,
-        'clientTxId':clientTxId
+        // 커스텀 데이터 
+        'clientTxId':sessionCustom
     };
 
     /* 1.6 거래 요청 정보 JSON 반환 */
@@ -214,7 +216,7 @@ app.post(resultUri, async (req, res) => {
         clientTxId = decryptMOKResultObject.clientTxId;
     }
     // 세션 내 요청 clientTxId 와 수신한 clientTxId 가 동일한지 반드시 비교
-    console.log("req.session.clientTxId: **" + req.session.clientTxId)
+    console.log("req.session.clientTxId: **" + receivedClientTxId)
     console.log("clientTxId: **" + clientTxId)
     if (receivedClientTxId != clientTxId) {
         return res.send('-4|세션값에 저장된 거래ID 비교 실패');
