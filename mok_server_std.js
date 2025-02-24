@@ -34,12 +34,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: uuid(),
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         httpOnly: true,       // 클라이언트 자바스크립트에서 쿠키 접근 차단
         secure: true,        // HTTPS 환경에서는 true로 설정
         sameSite: 'None',       // 크로스 사이트 요청에서 쿠키 전송 허용
-         domain: '.sotong.com'
+         domain: ['www.sotong.com', 'sotong.com']
     }
 }));
 
