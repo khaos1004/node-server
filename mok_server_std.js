@@ -34,23 +34,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: uuid(),
     resave: false,
-    saveUninitialized: false
-}));
-
-app.use(session({
-    secret: uuid(),
-    resave: false,
     saveUninitialized: false,
     cookie: {
         httpOnly: true,       // 클라이언트 자바스크립트에서 쿠키 접근 차단
         secure: true,        // HTTPS 환경에서는 true로 설정
-        sameSite: 'None'       // 크로스 사이트 요청에서 쿠키 전송 허용
+        sameSite: 'None',       // 크로스 사이트 요청에서 쿠키 전송 허용
+         domain: '.sotong.com'
     }
 }));
 
 // CORS 설정 추가
 app.use(cors({
-    origin: ['https://sotong.com', 'https://www.sotong.com', 'http://localhost:3000'], // React 앱의 도메인
+    origin: ['https://sotong.com', 'https://www.sotong.com', 'http://localhost:3000', "https://verify.sotong.com"], // React 앱의 도메인
     methods: ['GET', 'POST'], // 허용할 메서드
     credentials: true // 세션 및 쿠키 허용
 }));
