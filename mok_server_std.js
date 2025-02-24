@@ -215,6 +215,7 @@ app.post(resultUri, async (req, res) => {
     let clientTxId = '';
     if (decryptMOKResultObject.hasOwnProperty("clientTxId")) {
         clientTxId = decryptMOKResultObject.clientTxId;
+        // MOBILEOK.process 메서드에서 크로스도메인 쿠키 전송 지원안함 어쩔수 없이 해당 값 설정
         req.session.clientTxId = decryptMOKResultObject.clientTxId;
     }
     // 세션 내 요청 clientTxId 와 수신한 clientTxId 가 동일한지 반드시 비교
