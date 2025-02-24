@@ -215,11 +215,12 @@ app.post(resultUri, async (req, res) => {
     let clientTxId = '';
     if (decryptMOKResultObject.hasOwnProperty("clientTxId")) {
         clientTxId = decryptMOKResultObject.clientTxId;
+        req.session.clientTxId = decryptMOKResultObject.clientTxId;
     }
     // 세션 내 요청 clientTxId 와 수신한 clientTxId 가 동일한지 반드시 비교
-    console.log("req.session.clientTxId: **" + receivedClientTxId)
+    console.log("req.session.clientTxId: **" + req.session.clientTxId)
     console.log("clientTxId: **" + clientTxId)
-    if (receivedClientTxId != clientTxId) {
+    if (req.session.clientTxId != clientTxId) {
         return res.send('-4|세션값에 저장된 거래ID 비교 실패');
     }
 
