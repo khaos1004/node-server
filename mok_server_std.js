@@ -132,7 +132,7 @@ app.post(requestUri, (req, res) => {
     };
 
     /* 1.6 거래 요청 정보 JSON 반환 */
-    console.log("authRequestObject:  " + authRequestObject)
+    console.log("authRequestObject:  " + console.log(JSON.stringify(authRequestObject)))
     res.send(JSON.stringify(authRequestObject));
 })
 
