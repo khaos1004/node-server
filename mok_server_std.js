@@ -80,8 +80,8 @@ const resultUri = '/verificationResult';  // mok 결과 요청 URI
 /* 2-3 결과 수신 후 전달 URL 설정 - "https://" 포함한 URL 입력 */
 /* 결과 전달 URL 내에 개인정보 포함을 절대 금지합니다.*/
 // const resultUrl = 'https://이용기관URL/mok/mok_std_result'; 
-const resultUrl = 'http://localhost:8085/verificationResult';
-// const resultUrl = 'https://verify.sotong.com/verificationResult';
+// const resultUrl = 'http://localhost:8085/verificationResult';
+const resultUrl = 'https://verify.sotong.com/verificationResult';
 
 /* 3. 본인확인 서비스 API 설정 */
 /* 3-1 키파일 경로(본인확인 키정보파일 Path)설정 */
