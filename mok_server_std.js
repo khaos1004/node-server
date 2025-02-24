@@ -321,7 +321,7 @@ app.post(resultUri, async (req, res) => {
     /* 6. 본인확인 결과 응답 방식 */
     /* 6.1 : 팝업창(Pop-Up) : callback 함수 정의시 */
     /* 6.1-1 팝업창(Pop-Up) 결과반환 */
-    return res.send(data);
+    res.send(data);
     /* 6.2 : 페이지 이동(Redirect) : callback 함수 "" 값으로 미 정의시 */
     /* 6.2-1 이동페이지(Redirect Page) 설정 */
     // const redirectUrl = '/mok_std_redirect.ejs의 경로/mok/mok_std_redirect.ejs'
