@@ -160,7 +160,8 @@ app.post(resultUri, async (req, res) => {
 
     const resultRequestObject = JSON.parse(resultRequestJson);
     console.log("resultRequestObject: " + resultRequestObject)
-    const receivedClientTxId = req.body.clientTxId; // 클라이언트에서 받은 값
+    const receivedClientTxId = resultRequestJson; // 클라이언트에서 받은 값
+    console.log("receivedClientTxId:**  " + receivedClientTxId)
 
     /* 2. 본인확인 결과 타입별 결과 처리 */
     let encryptMOKResult;
