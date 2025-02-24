@@ -69,7 +69,8 @@ const resultUri = '/verificationResult';  // mok 결과 요청 URI
 /* 2-3 결과 수신 후 전달 URL 설정 - "https://" 포함한 URL 입력 */
 /* 결과 전달 URL 내에 개인정보 포함을 절대 금지합니다.*/
 // const resultUrl = 'https://이용기관URL/mok/mok_std_result'; 
-const resultUrl = 'http://localhost:8085/verificationResult';
+// const resultUrl = 'http://localhost:8085/verificationResult';
+const resultUrl = 'https://verify.sotong.com/verificationResult';
 
 /* 3. 본인확인 서비스 API 설정 */
 /* 3-1 키파일 경로(본인확인 키정보파일 Path)설정 */
@@ -130,6 +131,7 @@ app.post(requestUri, (req, res) => {
     };
 
     /* 1.6 거래 요청 정보 JSON 반환 */
+    console.log("authRequestObject:  " + authRequestObject)
     res.send(JSON.stringify(authRequestObject));
 })
 
@@ -138,8 +140,13 @@ app.post(resultUri, async (req, res) => {
     /* 1. 본인확인 결과 타입 설정 */
     console.log("결과 호출");
     const resultRequestString = req.body;
+    console.log("resultRequestString: " + resultRequestString)
+
     const resultRequestJson = urlencode.decode(resultRequestString.data);
+    console.log("resultRequestJson: " + resultRequestJson)
+
     const resultRequestObject = JSON.parse(resultRequestJson);
+    console.log("resultRequestObject: " + resultRequestObject)
 
     /* 2. 본인확인 결과 타입별 결과 처리 */
     let encryptMOKResult;
@@ -157,6 +164,7 @@ app.post(resultUri, async (req, res) => {
             return res.send('-0|본인확인 서버통신(결과요청)에 실패했습니다.');
         }
         encryptMOKResult = resultResponseObject.encryptMOKResult;
+        console.log("resultResponseObject.resultCode: " + resultResponseObject.resultCode)
 
         /* 2.1.3 본인확인 결과요청 실패시 */
         if (resultResponseObject.resultCode != '2000') {

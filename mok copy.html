@@ -11,8 +11,8 @@
 
 <script>
     window.onload = function(){
-        MOBILEOK.process("https://verify.sotong.com/AdultVerification", "WB", "");
-        // MOBILEOK.process("http://localhost:8085/AdultVerification", "WB", "");
+        // MOBILEOK.process("https://verify.sotong.com/AdultVerification", "WB", "");
+        MOBILEOK.process("http://localhost:8085/AdultVerification", "WB", "");
     }
     function result(result) {
     try {
@@ -94,9 +94,9 @@
     <textarea id="result" rows="20"></textarea>
     </div>
 </div>
-<!-- <div class="content">
+<div class="content">
     <button id="mok_popup">본인확인 시작(팝업)</button>
-</div> -->
+</div>
 <!--    <div class="content">-->
 <!--        <button id="mok_move">본인확인 시작(이동)</button>-->
 <!--    </div>-->
