@@ -44,6 +44,17 @@ app.use(cors({
     credentials: true // 세션 및 쿠키 허용
 }));
 
+app.use(session({
+    secret: uuid(),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,       // 클라이언트 자바스크립트에서 쿠키 접근 차단
+        secure: true,        // HTTPS 환경에서는 true로 설정
+        sameSite: 'lax'       // 크로스 사이트 요청에서 쿠키 전송 허용
+    }
+}));
+
 /* 1-5 본인확인 Node.js 서버 실행 */
 app.listen(port, () => {
     console.log(`App listening at Port : ${port}`);
@@ -69,14 +80,15 @@ const resultUri = '/verificationResult';  // mok 결과 요청 URI
 /* 2-3 결과 수신 후 전달 URL 설정 - "https://" 포함한 URL 입력 */
 /* 결과 전달 URL 내에 개인정보 포함을 절대 금지합니다.*/
 // const resultUrl = 'https://이용기관URL/mok/mok_std_result'; 
-// const resultUrl = 'http://localhost:8085/verificationResult';
-const resultUrl = 'https://verify.sotong.com/verificationResult';
+const resultUrl = 'http://localhost:8085/verificationResult';
+// const resultUrl = 'https://verify.sotong.com/verificationResult';
 
 /* 3. 본인확인 서비스 API 설정 */
 /* 3-1 키파일 경로(본인확인 키정보파일 Path)설정 */
 /* 키파일은 반드시 서버의 안전한 로컬경로에 별도 저장. 웹URL 경로에 파일이 있을경우 키파일이 외부에 노출될 수 있음 주의 */
 // const keyPath = "key/mok_keyInfo.dat";
 const keyPath = "/opt/nodeback/node-server/mok_keyInfo.dat";
+// const keyPath = "mok_keyInfo.dat";
 
 /* 3-2 키파일 비밀번호(본인확인 키파일 패스워드)설정 */
 const password = 'xhakxhvotm1';
