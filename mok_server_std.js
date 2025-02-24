@@ -298,6 +298,7 @@ app.post(resultUri, async (req, res) => {
         'resultMsg': '성공',
         'data': userName
     };
+    console.log("data**: " + data)
 
     /* 6. 본인확인 결과 응답 방식 */
     /* 6.1 : 팝업창(Pop-Up) : callback 함수 정의시 */
