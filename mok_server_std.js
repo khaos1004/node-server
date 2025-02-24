@@ -34,12 +34,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: uuid(),
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
         httpOnly: true,       // 클라이언트 자바스크립트에서 쿠키 접근 차단
         secure: true,        // HTTPS 환경에서는 true로 설정
-        sameSite: 'None',       // 크로스 사이트 요청에서 쿠키 전송 허용
-         domain: ['www.sotong.com', 'sotong.com']
+        sameSite: 'None',       // 크로스 사이트 요청에서 쿠키 전송 허용    
+        domain: '.sotong.com' // 상위 도메인으로 설정    
     }
 }));
 
@@ -137,7 +137,8 @@ app.post(requestUri, (req, res) => {
         /* 본인확인 결과 타입, "MOKToken"  : 개인정보 응답결과를 이용기관 서버에서 본인확인 서버에 요청하여 수신 후 처리 */
         , 'retTransferType': 'MOKToken'
         /* 본인확인 결과 수신 URL */
-        , 'returnUrl': resultUrl
+        , 'returnUrl': resultUrl,
+        'clientTxId':clientTxId
     };
 
     /* 1.6 거래 요청 정보 JSON 반환 */
@@ -157,6 +158,7 @@ app.post(resultUri, async (req, res) => {
 
     const resultRequestObject = JSON.parse(resultRequestJson);
     console.log("resultRequestObject: " + resultRequestObject)
+    const receivedClientTxId = req.body.clientTxId; // 클라이언트에서 받은 값
 
     /* 2. 본인확인 결과 타입별 결과 처리 */
     let encryptMOKResult;
@@ -214,7 +216,7 @@ app.post(resultUri, async (req, res) => {
     // 세션 내 요청 clientTxId 와 수신한 clientTxId 가 동일한지 반드시 비교
     console.log("req.session.clientTxId: **" + req.session.clientTxId)
     console.log("clientTxId: **" + clientTxId)
-    if (req.session.clientTxId != clientTxId) {
+    if (receivedClientTxId != clientTxId) {
         return res.send('-4|세션값에 저장된 거래ID 비교 실패');
     }
 
