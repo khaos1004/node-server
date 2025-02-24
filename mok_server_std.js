@@ -39,7 +39,7 @@ app.use(session({
 
 // ✅ CORS 설정 추가
 app.use(cors({
-    origin: 'http://localhost:3000', // React 앱의 도메인
+    origin: ['https://sotong.com', 'https://www.sotong.com'], // React 앱의 도메인
     methods: ['GET', 'POST'], // 허용할 메서드
     credentials: true // 세션 및 쿠키 허용
 }));
