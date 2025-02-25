@@ -13,7 +13,7 @@
 <script>
     window.onload = function(){
         // MOBILEOK.process("https://verify.sotong.com/AdultVerification", "WB", "");
-        MOBILEOK.process("https://verify.sotong.com/AdultVerification", "WB", "");
+        MOBILEOK.process("https://verify.sotong.com/AdultVerification", "WB", "result");
     }
     function result(result) {
     try {
@@ -47,60 +47,6 @@
     }
     }
 </script> -->
-<style>
-    .container {
-    width: 500px;
-    border: 1px black solid;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    }
-
-    .content {
-    border: 1px black solid;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    }
-
-    .item {
-    border: 1px black solid;
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    }
-
-    label {
-    margin-bottom: 5px;
-    font-weight: 800;
-    }
-
-    input {
-    box-sizing: border-box;
-    }
-
-    button {
-    font-size: 20px;
-    font-weight: 800;
-    padding: 3px;
-    box-sizing: border-box;
-    }
-</style>
 <title>휴대폰본인확인_표준창</title>
 </head>
-<body>
-<div class="container">
-<div class="content">
-    <div class="item">
-    <textarea id="result" rows="20"></textarea>
-    </div>
-</div>
-<!-- <div class="content">
-    <button id="mok_popup">본인확인 시작(팝업)</button>
-</div> -->
-<!--    <div class="content">-->
-<!--        <button id="mok_move">본인확인 시작(이동)</button>-->
-<!--    </div>-->
-</div>
-</body>
 </html>
