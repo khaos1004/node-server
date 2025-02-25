@@ -18,9 +18,9 @@
     function result(result) {
     try {
         result = JSON.parse(result);
-        document.querySelector("#result").value = JSON.stringify(result, null, 4);
+        return JSON.stringify(result, null, 4);
     } catch (error) {
-        document.querySelector("#result").value = result;
+        return result;
     }
     }
 </script>
