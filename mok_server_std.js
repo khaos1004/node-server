@@ -63,8 +63,8 @@ app.listen(port, () => {
 
 /* 2. 본인확인 인증결과 경로설정 */
 /* 2-1 본인확인 인증결과 API 요청 URL */
-const MOK_RESULT_REQUEST_URL = 'https://scert.mobile-ok.com/gui/service/v1/result/request';  // 개발
-// const MOK_RESULT_REQUEST_URL = 'https://cert.mobile-ok.com/gui/service/v1/result/request';  // 운영
+// const MOK_RESULT_REQUEST_URL = 'https://scert.mobile-ok.com/gui/service/v1/result/request';  // 개발
+const MOK_RESULT_REQUEST_URL = 'https://cert.mobile-ok.com/gui/service/v1/result/request';  // 운영
 
 /* 2-1 본인확인 Node.js서버 매핑 URL */
 // const requestUri = 'https://본인확인 요청 URL/mok/mok_std_request';  // mok 인증 요청 URI  
@@ -84,7 +84,8 @@ const resultUrl = 'https://verify.sotong.com/verificationResult';
 /* 3-1 키파일 경로(본인확인 키정보파일 Path)설정 */
 /* 키파일은 반드시 서버의 안전한 로컬경로에 별도 저장. 웹URL 경로에 파일이 있을경우 키파일이 외부에 노출될 수 있음 주의 */
 // const keyPath = "key/mok_keyInfo.dat";
-const keyPath = "/opt/nodeback/node-server/mok_keyInfo.dat";
+// const keyPath = "/opt/nodeback/node-server/mok_keyInfo.dat";
+const keyPath = "/opt/nodeback/node-server/key/mok_keyInfo.dat";
 // const keyPath = "mok_keyInfo.dat";
 
 /* 3-2 키파일 비밀번호(본인확인 키파일 패스워드)설정 */
